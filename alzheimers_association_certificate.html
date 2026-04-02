@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alzheimer's Association – Certificate of Recognition</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple:    #5c2d82;
+    --purple-mid: #7a3fa8;
+    --purple-lt: #ede7f6;
+    --gold:      #c9a84c;
+    --gold-lt:   #f5e9c8;
+    --off-white: #faf8f5;
+    --ink:       #1a1a2e;
+    --mid-gray:  #6b6b80;
+  }
+
+  @media print {
+    body { background: white; }
+    .no-print { display: none !important; }
+    .page { box-shadow: none; }
+  }
+
+  body {
+    background: #e8e2dc;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  /* ── Controls ── */
+  .controls {
+    width: 100%;
+    max-width: 820px;
+    margin-bottom: 1.5rem;
+    background: white;
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1.25rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,.1);
+  }
+  .controls h3 {
+    grid-column: 1/-1;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--purple);
+    border-bottom: 1px solid var(--purple-lt);
+    padding-bottom: .5rem;
+    margin-bottom: .25rem;
+  }
+  .field label {
+    display: block;
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    margin-bottom: .3rem;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+    padding: .42rem .65rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: .78rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .2s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--purple);
+  }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .field.full { grid-column: 1/-1; }
+  .btn-row {
+    grid-column: 1/-1;
+    display: flex;
+    gap: .75rem;
+    justify-content: flex-end;
+    margin-top: .25rem;
+  }
+  button {
+    font-family: 'Montserrat', sans-serif;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: .55rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity .2s, transform .15s;
+  }
+  button:hover { opacity: .88; transform: translateY(-1px); }
+  .btn-primary { background: var(--purple); color: white; }
+  .btn-outline { background: white; color: var(--purple); border: 1.5px solid var(--purple); }
+
+  /* ── Certificate Page ── */
+  .page {
+    width: 820px;
+    height: 580px;
+    background: var(--off-white);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,.22);
+    border-radius: 4px;
+  }
+
+  /* Decorative corner frames */
+  .corner {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
+  }
+  .corner svg { width: 100%; height: 100%; }
+  .corner.tl { top: 18px; left: 18px; }
+  .corner.tr { top: 18px; right: 18px; transform: scaleX(-1); }
+  .corner.bl { bottom: 18px; left: 18px; transform: scaleY(-1); }
+  .corner.br { bottom: 18px; right: 18px; transform: scale(-1,-1); }
+
+  /* Outer border rule */
+  .border-rule {
+    position: absolute;
+    inset: 14px;
+    border: 1.5px solid var(--gold);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .border-rule-inner {
+    position: absolute;
+    inset: 20px;
+    border: .5px solid rgba(201,168,76,.45);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  /* Purple top band */
+  .top-band {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--purple) 0%, var(--purple-mid) 50%, var(--purple) 100%);
+  }
+  .bottom-band {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--purple) 0%, var(--purple-mid) 50%, var(--purple) 100%);
+  }
+
+  /* Subtle watermark */
+  .watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    height: 340px;
+    opacity: .035;
+    pointer-events: none;
+  }
+
+  /* Content layout */
+  .cert-content {
+    position: absolute;
+    inset: 38px 50px 38px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+  }
+
+  /* Logo + org header */
+  .org-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .org-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--purple);
+  }
+
+  /* Purple ribbon line */
+  .ribbon-line {
+    width: 280px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--purple), var(--gold), var(--purple), transparent);
+    margin: 2px 0;
+  }
+
+  /* Title */
+  .cert-title-block { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .cert-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: .6rem;
+    font-weight: 600;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+  }
+  .cert-type {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.6rem;
+    font-weight: 300;
+    color: var(--purple);
+    line-height: 1;
+    letter-spacing: .04em;
+  }
+
+  /* Recipient */
+  .recipient-block { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; }
+  .presented-to {
+    font-family: 'Montserrat', sans-serif;
+    font-size: .58rem;
+    font-weight: 500;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+  }
+  .recipient-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.1;
+    border-bottom: 1.5px solid var(--gold);
+    padding-bottom: 4px;
+    min-width: 300px;
+  }
+  .achievement-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: .72rem;
+    font-weight: 300;
+    color: var(--mid-gray);
+    max-width: 520px;
+    line-height: 1.6;
+  }
+  .achievement-highlight {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--purple);
+    font-weight: 400;
+  }
+
+  /* Footer: date + signatures */
+  .cert-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .sig-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 160px;
+  }
+  .sig-line {
+    width: 150px;
+    height: 1px;
+    background: var(--gold);
+    margin-bottom: 4px;
+  }
+  .sig-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: center;
+  }
+  .sig-role {
+    font-family: 'Montserrat', sans-serif;
+    font-size: .55rem;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    text-align: center;
+  }
+
+  .date-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .date-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: .55rem;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+  }
+  .date-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: .04em;
+  }
+
+  /* Gold seal */
+  .seal {
+    position: absolute;
+    bottom: 52px;
+    right: 68px;
+    width: 72px;
+    height: 72px;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Edit Controls ── -->
+<div class="controls no-print">
+  <h3>Certificate Editor</h3>
+
+  <div class="field">
+    <label>Certificate Type</label>
+    <select id="certType">
+      <option value="Recognition">Recognition</option>
+      <option value="Achievement">Achievement</option>
+      <option value="Completion">Completion</option>
+      <option value="Appreciation">Appreciation</option>
+      <option value="Service">Service</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Recipient Name</label>
+    <input id="recipientName" type="text" value="Jane Smith" />
+  </div>
+
+  <div class="field full">
+    <label>Achievement / Award Description</label>
+    <textarea id="achievementDesc">in recognition of completing the Dementia Care Training Program and demonstrating outstanding commitment to quality care and support</textarea>
+  </div>
+
+  <div class="field">
+    <label>Award / Program Title</label>
+    <input id="awardTitle" type="text" value="Dementia Care Training Program" />
+  </div>
+
+  <div class="field">
+    <label>Date</label>
+    <input id="certDate" type="text" value="April 2, 2026" />
+  </div>
+
+  <div class="field">
+    <label>Signer 1 — Name</label>
+    <input id="sig1Name" type="text" value="Elizabeth Johnson" />
+  </div>
+  <div class="field">
+    <label>Signer 1 — Title</label>
+    <input id="sig1Role" type="text" value="Executive Director" />
+  </div>
+
+  <div class="field">
+    <label>Signer 2 — Name</label>
+    <input id="sig2Name" type="text" value="Maria Carrillo, Ph.D." />
+  </div>
+  <div class="field">
+    <label>Signer 2 — Title</label>
+    <input id="sig2Role" type="text" value="Chief Science Officer" />
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-outline" onclick="updateCert()">Update Preview</button>
+    <button class="btn-primary" onclick="window.print()">Print / Save PDF</button>
+  </div>
+</div>
+
+<!-- ── Certificate ── -->
+<div class="page" id="certificate">
+
+  <div class="top-band"></div>
+  <div class="bottom-band"></div>
+  <div class="border-rule"></div>
+  <div class="border-rule-inner"></div>
+
+  <!-- Corner ornaments -->
+  <div class="corner tl">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 40 M4 4 L40 4" stroke="#c9a84c" stroke-width="1.5"/>
+      <path d="M14 14 L14 34 M14 14 L34 14" stroke="#c9a84c" stroke-width=".75" opacity=".6"/>
+      <circle cx="4" cy="4" r="3" fill="#c9a84c" opacity=".8"/>
+      <circle cx="14" cy="14" r="2" fill="#c9a84c" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="corner tr">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 40 M4 4 L40 4" stroke="#c9a84c" stroke-width="1.5"/>
+      <path d="M14 14 L14 34 M14 14 L34 14" stroke="#c9a84c" stroke-width=".75" opacity=".6"/>
+      <circle cx="4" cy="4" r="3" fill="#c9a84c" opacity=".8"/>
+      <circle cx="14" cy="14" r="2" fill="#c9a84c" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="corner bl">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 40 M4 4 L40 4" stroke="#c9a84c" stroke-width="1.5"/>
+      <path d="M14 14 L14 34 M14 14 L34 14" stroke="#c9a84c" stroke-width=".75" opacity=".6"/>
+      <circle cx="4" cy="4" r="3" fill="#c9a84c" opacity=".8"/>
+      <circle cx="14" cy="14" r="2" fill="#c9a84c" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="corner br">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 40 M4 4 L40 4" stroke="#c9a84c" stroke-width="1.5"/>
+      <path d="M14 14 L14 34 M14 14 L34 14" stroke="#c9a84c" stroke-width=".75" opacity=".6"/>
+      <circle cx="4" cy="4" r="3" fill="#c9a84c" opacity=".8"/>
+      <circle cx="14" cy="14" r="2" fill="#c9a84c" opacity=".5"/>
+    </svg>
+  </div>
+
+  <!-- Watermark logo shape -->
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="90" stroke="#5c2d82" stroke-width="3"/>
+    <circle cx="100" cy="100" r="78" stroke="#5c2d82" stroke-width="1.5"/>
+    <text x="100" y="115" text-anchor="middle" font-size="28" font-family="serif" fill="#5c2d82">ALZ</text>
+  </svg>
+
+  <!-- Gold seal -->
+  <svg class="seal" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="40,4 47,28 72,28 52,44 60,68 40,54 20,68 28,44 8,28 33,28" fill="#c9a84c" opacity=".18"/>
+    <polygon points="40,4 47,28 72,28 52,44 60,68 40,54 20,68 28,44 8,28 33,28" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+    <circle cx="40" cy="40" r="16" stroke="#c9a84c" stroke-width="1" fill="rgba(201,168,76,.08)"/>
+    <text x="40" y="44" text-anchor="middle" font-size="9" font-family="Montserrat,sans-serif" font-weight="600" fill="#c9a84c" letter-spacing="1">ALZ</text>
+  </svg>
+
+  <!-- Main content -->
+  <div class="cert-content">
+
+    <div class="org-header">
+      <span class="org-name">Alzheimer's Association®</span>
+      <div class="ribbon-line"></div>
+    </div>
+
+    <div class="cert-title-block">
+      <span class="cert-label">Certificate of</span>
+      <div class="cert-type" id="dispCertType">Recognition</div>
+    </div>
+
+    <div class="recipient-block">
+      <span class="presented-to">Presented to</span>
+      <div class="recipient-name" id="dispRecipientName">Jane Smith</div>
+      <p class="achievement-text" id="dispAchievementDesc">
+        in recognition of completing the <span class="achievement-highlight">Dementia Care Training Program</span> and demonstrating outstanding commitment to quality care and support
+      </p>
+    </div>
+
+    <div class="cert-footer">
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name" id="dispSig1Name">Elizabeth Johnson</div>
+        <div class="sig-role" id="dispSig1Role">Executive Director</div>
+      </div>
+
+      <div class="date-block">
+        <span class="date-label">Date</span>
+        <span class="date-value" id="dispDate">April 2, 2026</span>
+      </div>
+
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name" id="dispSig2Name">Maria Carrillo, Ph.D.</div>
+        <div class="sig-role" id="dispSig2Role">Chief Science Officer</div>
+      </div>
+    </div>
+
+  </div><!-- /cert-content -->
+</div><!-- /page -->
+
+<script>
+function updateCert() {
+  const certType = document.getElementById('certType').value;
+  const name     = document.getElementById('recipientName').value.trim() || '[Recipient Name]';
+  const desc     = document.getElementById('achievementDesc').value.trim();
+  const award    = document.getElementById('awardTitle').value.trim();
+  const date     = document.getElementById('certDate').value.trim();
+  const s1n      = document.getElementById('sig1Name').value.trim();
+  const s1r      = document.getElementById('sig1Role').value.trim();
+  const s2n      = document.getElementById('sig2Name').value.trim();
+  const s2r      = document.getElementById('sig2Role').value.trim();
+
+  document.getElementById('dispCertType').textContent     = certType;
+  document.getElementById('dispRecipientName').textContent = name;
+  document.getElementById('dispDate').textContent          = date;
+  document.getElementById('dispSig1Name').textContent      = s1n;
+  document.getElementById('dispSig1Role').textContent      = s1r;
+  document.getElementById('dispSig2Name').textContent      = s2n;
+  document.getElementById('dispSig2Role').textContent      = s2r;
+
+  // Re-render achievement text with italic award title
+  const descEl = document.getElementById('dispAchievementDesc');
+  const safe = desc.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const safeAward = award.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  if (award && safe.includes(safeAward)) {
+    descEl.innerHTML = safe.replace(safeAward, `<span class="achievement-highlight">${safeAward}</span>`);
+  } else {
+    descEl.textContent = desc;
+  }
+}
+</script>
+</body>
+</html>
